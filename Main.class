@@ -1,0 +1,30 @@
+public class Main {
+    public static void main(String[] args) {
+        String input1 = "abcd123.456";
+        String input2 = "abcd123";
+        System.out.println(extractNumber(input1)); // 应输出 "123.45"
+        System.out.println(extractNumber(input2)); // 应输出 "123.00"
+    }
+
+    public static String extractNumber(String input) {
+        // 提取字符串中的数字部分
+        String numberPart = input.replaceAll("[^0-9.]", "");
+        
+        // 检查是否包含小数点
+        if (numberPart.contains(".")) {
+            // 如果包含小数点，截取小数点后两位
+            int decimalIndex = numberPart.indexOf(".");
+            String integerPart = numberPart.substring(0, decimalIndex);
+            String fractionalPart = numberPart.substring(decimalIndex + 1);
+            if (fractionalPart.length() > 2) {
+                fractionalPart = fractionalPart.substring(0, 2);
+            } else if (fractionalPart.length() < 2) {
+                fractionalPart = String.format("%-2s", fractionalPart).replace(' ', '0');
+            }
+            return integerPart + "." + fractionalPart;
+        } else {
+            // 如果不包含小数点，添加 ".00"
+            return numberPart + ".00";
+        }
+    }
+}
